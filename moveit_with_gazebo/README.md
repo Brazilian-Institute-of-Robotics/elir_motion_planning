@@ -3,6 +3,7 @@ This is the sample package used to interact MoveIt with gazebo!
 The files 
 
 #Gazebo Configuration
+
 It's necessary that your robot has the trajectory controllers defined spawned in the gazebo simulation.
 Your joints interface transmission is generaly described in your robot.urdf.xacro file, a simple position controlled joint looks like this:
 
@@ -89,4 +90,5 @@ Now, create one moveit_planning_execution.launch file, that loads the planning e
 ```
 
 #Running the tests
+
 Launch your robot world, with the controllers and models. Then launch the moveit_planning_execution and add the motion planning plugin
