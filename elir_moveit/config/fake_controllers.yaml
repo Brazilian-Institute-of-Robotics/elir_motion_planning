@@ -2,9 +2,8 @@ controller_list:
   - name: fake_f_arm_controller
     joints:
       - joint1_f
-      - joint2_f
   - name: fake_f_claw_controller
     joints:
       - joint2_f
       - joint_garra_tracao_f1
-      - joint_garra_tracao_f2
+      - joint_eixo_tracao_f2

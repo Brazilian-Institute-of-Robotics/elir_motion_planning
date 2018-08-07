@@ -121,7 +121,7 @@ planner_configs:
     dense_delta_fraction: 0.001  # delta fraction for interface detection. default: 0.001
     max_failures: 5000  # maximum consecutive failure limit. default: 5000
 f_arm:
-  default_planner_config: NkConfigDefault
+  default_planner_config: NonekConfigDefault
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -146,31 +146,31 @@ f_arm:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
-f_claw:
-  default_planner_config: kConfigDefault
-  planner_configs:
-    - SBLkConfigDefault
-    - ESTkConfigDefault
-    - LBKPIECEkConfigDefault
-    - BKPIECEkConfigDefault
-    - KPIECEkConfigDefault
-    - RRTkConfigDefault
-    - RRTConnectkConfigDefault
-    - RRTstarkConfigDefault
-    - TRRTkConfigDefault
-    - PRMkConfigDefault
-    - PRMstarkConfigDefault
-    - FMTkConfigDefault
-    - BFMTkConfigDefault
-    - PDSTkConfigDefault
-    - STRIDEkConfigDefault
-    - BiTRRTkConfigDefault
-    - LBTRRTkConfigDefault
-    - BiESTkConfigDefault
-    - ProjESTkConfigDefault
-    - LazyPRMkConfigDefault
-    - LazyPRMstarkConfigDefault
-    - SPARSkConfigDefault
-    - SPARStwokConfigDefault
-  projection_evaluator: joints(joint2_f,joint_garra_tracao_f1)
+  projection_evaluator: joints(joint1_f,joint2_f)
   longest_valid_segment_fraction: 0.005
+eef_f:
+  default_planner_config: NonekConfigDefault
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+    - FMTkConfigDefault
+    - BFMTkConfigDefault
+    - PDSTkConfigDefault
+    - STRIDEkConfigDefault
+    - BiTRRTkConfigDefault
+    - LBTRRTkConfigDefault
+    - BiESTkConfigDefault
+    - ProjESTkConfigDefault
+    - LazyPRMkConfigDefault
+    - LazyPRMstarkConfigDefault
+    - SPARSkConfigDefault
+    - SPARStwokConfigDefault

@@ -9,16 +9,16 @@
   <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro --inorder  '$(find elir_description)/urdf/elir.urdf.xacro'"/>
 
   <!-- The semantic description that corresponds to the URDF -->
-  <param name="$(arg robot_description)_semantic" textfile="$(find elir_moveit)/config/elir_robot.srdf" />
+  <param name="$(arg robot_description)_semantic" textfile="$(find moveit_with_gazebo)/config/elir_robot.srdf" />
 
   <!-- Load updated joint limits (override information from URDF) -->
   <group ns="$(arg robot_description)_planning">
-    <rosparam command="load" file="$(find elir_moveit)/config/joint_limits.yaml"/>
+    <rosparam command="load" file="$(find moveit_with_gazebo)/config/joint_limits.yaml"/>
   </group>
 
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
-    <rosparam command="load" file="$(find elir_moveit)/config/kinematics.yaml"/>
+    <rosparam command="load" file="$(find moveit_with_gazebo)/config/kinematics.yaml"/>
   </group>
 
 </launch>
