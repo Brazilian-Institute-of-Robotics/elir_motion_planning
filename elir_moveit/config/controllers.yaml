@@ -1,0 +1,19 @@
+controller_manager_ns: controller_manager
+controller_list:
+  - name: robot/f_arm_trajectory_controller/
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint1_f
+      - joint2_f
+
+controller_manager_ns: controller_manager
+controller_list:
+  - name: robot/b_arm_trajectory_controller/
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint1_b
+      - joint2_b
