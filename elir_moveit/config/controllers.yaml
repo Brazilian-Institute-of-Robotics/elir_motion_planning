@@ -7,9 +7,6 @@ controller_list:
     joints:
       - joint1_f
       - joint2_f
-
-controller_manager_ns: controller_manager
-controller_list:
   - name: robot/b_arm_trajectory_controller/
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
@@ -17,3 +14,4 @@ controller_list:
     joints:
       - joint1_b
       - joint2_b
+
