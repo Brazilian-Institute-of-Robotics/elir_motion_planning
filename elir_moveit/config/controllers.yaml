@@ -1,13 +1,13 @@
 controller_manager_ns: controller_manager
 controller_list:
-  - name: robot/f_arm_trajectory_controller/
+  - name: elir/f_arm_trajectory_controller/
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
     joints:
       - joint1_f
       - joint2_f
-  - name: robot/b_arm_trajectory_controller/
+  - name: elir/b_arm_trajectory_controller/
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
