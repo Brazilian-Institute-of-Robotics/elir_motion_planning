@@ -1,0 +1,5 @@
+string group # group that is going to be moved
+float32 x # X coordinate
+float32 y # Y coordinate
+---
+bool result # true if the goal was achievied in the set tolerance

@@ -34,15 +34,6 @@
 #
 # Author: Acorn Pooley, Mike Lautman
 
-## BEGIN_SUB_TUTORIAL imports
-##
-## To use the Python MoveIt! interfaces, we will import the `moveit_commander`_ namespace.
-## This namespace provides us with a `MoveGroupCommander`_ class, a `PlanningSceneInterface`_ class,
-## and a `RobotCommander`_ class. (More on these below)
-##
-## We also import `rospy`_ and some messages that we will use:
-##
-
 import sys
 import copy
 import rospy
@@ -110,12 +101,6 @@ class MoveGroupElir(object):
                                                    moveit_msgs.msg.DisplayTrajectory,
                                                    queue_size=20)
 
-    ## END_SUB_TUTORIAL
-
-    ## BEGIN_SUB_TUTORIAL basic_info
-    ##
-    ## Getting Basic Information
-    ## ^^^^^^^^^^^^^^^^^^^^^^^^^
     # We can get the name of the reference frame for this robot:
     planning_frame = group.get_planning_frame()
     print "============ Reference frame: %s" % planning_frame
@@ -133,10 +118,8 @@ class MoveGroupElir(object):
     print "============ Printing robot state"
     print robot.get_current_state()
     print ""
-    ## END_SUB_TUTORIAL
 
     # Misc variables
-    self.box_name = ''
     self.robot = robot
     self.scene = scene
     self.group = group
@@ -181,44 +164,6 @@ class MoveGroupElir(object):
     return all_close(pose_goal, current_pose, 0.01)
 
 
-  def plan_cartesian_path(self, scale=1):
-    # Copy class variables to local variables to make the web tutorials more clear.
-    # In practice, you should use the class variables directly unless you have a good
-    # reason not to.
-    group = self.group
-
-    ## BEGIN_SUB_TUTORIAL plan_cartesian_path
-    ##
-    ## Cartesian Paths
-    ## ^^^^^^^^^^^^^^^
-    ## You can plan a Cartesian path directly by specifying a list of waypoints
-    ## for the end-effector to go through:
-    ##
-    waypoints = []
-
-    wpose = group.get_current_pose().pose
-    wpose.position.z -= scale * 0.1  # First move up (z)
-    wpose.position.y += scale * 0.2  # and sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
-
-    wpose.position.x += scale * 0.1  # Second move forward/backwards in (x)
-    waypoints.append(copy.deepcopy(wpose))
-
-    wpose.position.y -= scale * 0.1  # Third move sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
-
-    # We want the Cartesian path to be interpolated at a resolution of 1 cm
-    # which is why we will specify 0.01 as the eef_step in Cartesian
-    # translation.  We will disable the jump threshold by setting it to 0.0 disabling:
-    (plan, fraction) = group.compute_cartesian_path(
-                                       waypoints,   # waypoints to follow
-                                       0.01,        # eef_step
-                                       0.0)         # jump_threshold
-
-    # Note: We are just planning, not asking move_group to actually move the robot yet:
-    return plan, fraction
-
-    ## END_SUB_TUTORIAL
 
   def display_trajectory(self, plan):
     # Copy class variables to local variables to make the web tutorials more clear.
@@ -312,46 +257,14 @@ def main():
     raw_input()
     tutorial = MoveGroupPythonIntefaceTutorial()
 
-    print "============ Press `Enter` to execute a movement using a joint state goal ..."
-    raw_input()
-    tutorial.go_to_joint_state()
-
     print "============ Press `Enter` to execute a movement using a pose goal ..."
     raw_input()
     tutorial.go_to_pose_goal()
-
-    print "============ Press `Enter` to plan and display a Cartesian path ..."
-    raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path()
-
-    print "============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ..."
-    raw_input()
-    tutorial.display_trajectory(cartesian_plan)
-
-    print "============ Press `Enter` to execute a saved path ..."
-    raw_input()
-    tutorial.execute_plan(cartesian_plan)
-
-    print "============ Press `Enter` to add a box to the planning scene ..."
-    raw_input()
-    tutorial.add_box()
-
-    print "============ Press `Enter` to attach a Box to the Panda robot ..."
-    raw_input()
-    tutorial.attach_box()
 
     print "============ Press `Enter` to plan and execute a path with an attached collision object ..."
     raw_input()
     cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
     tutorial.execute_plan(cartesian_plan)
-
-    print "============ Press `Enter` to detach the box from the Panda robot ..."
-    raw_input()
-    tutorial.detach_box()
-
-    print "============ Press `Enter` to remove the box from the planning scene ..."
-    raw_input()
-    tutorial.remove_box()
 
     print "============ Python tutorial demo complete!"
   except rospy.ROSInterruptException:
@@ -361,39 +274,3 @@ def main():
 
 if __name__ == '__main__':
   main()
-
-## BEGIN_TUTORIAL
-## .. _moveit_commander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/namespacemoveit__commander.html
-##
-## .. _MoveGroupCommander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
-##
-## .. _RobotCommander:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
-##
-## .. _PlanningSceneInterface:
-##    http://docs.ros.org/kinetic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
-##
-## .. _DisplayTrajectory:
-##    http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/DisplayTrajectory.html
-##
-## .. _RobotTrajectory:
-##    http://docs.ros.org/kinetic/api/moveit_msgs/html/msg/RobotTrajectory.html
-##
-## .. _rospy:
-##    http://docs.ros.org/kinetic/api/rospy/html/
-## CALL_SUB_TUTORIAL imports
-## CALL_SUB_TUTORIAL setup
-## CALL_SUB_TUTORIAL basic_info
-## CALL_SUB_TUTORIAL plan_to_joint_state
-## CALL_SUB_TUTORIAL plan_to_pose
-## CALL_SUB_TUTORIAL plan_cartesian_path
-## CALL_SUB_TUTORIAL display_trajectory
-## CALL_SUB_TUTORIAL execute_plan
-## CALL_SUB_TUTORIAL add_box
-## CALL_SUB_TUTORIAL wait_for_scene_update
-## CALL_SUB_TUTORIAL attach_object
-## CALL_SUB_TUTORIAL detach_object
-## CALL_SUB_TUTORIAL remove_object
-## END_TUTORIAL
