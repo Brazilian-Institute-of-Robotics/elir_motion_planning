@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   std_srvs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -23,7 +24,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+#catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -62,7 +63,6 @@ add_service_files(
    MoveRequest.srv
 
  )
-
 ## Generate actions in the 'action' folder
 # add_action_files(
 #   FILES
@@ -71,10 +71,12 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   moveit_msgs#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   geometry_msgs   
+   moveit_msgs  
+   std_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##

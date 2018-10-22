@@ -43,6 +43,8 @@ import geometry_msgs.msg
 from math import pi
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+from elir_move_group.srv import MoveRequest
+
 ## END_SUB_TUTORIAL
 
 def all_close(goal, actual, tolerance):
@@ -75,10 +77,8 @@ class MoveGroupElir(object):
     ## BEGIN_SUB_TUTORIAL setup
     ##
     ## First initialize `moveit_commander`_ and a `rospy`_ node:
-    moveit_commander.roscpp_initialize(sys.argv)
-    rospy.init_node('move_group_python_interface_tutorial',
-                    anonymous=True)
 
+    self.move_request_service = rospy.Service('motion_planning/MoveRequest',MoveRequest, self.go_to_pose_goal)
     ## Instantiate a `RobotCommander`_ object. This object is the outer-level interface to
     ## the robot:
     robot = moveit_commander.RobotCommander()
@@ -92,7 +92,7 @@ class MoveGroupElir(object):
     ## arm so we set ``group_name = panda_arm``. If you are using a different robot,
     ## you should change this value to the name of your robot arm planning group.
     ## This interface can be used to plan and execute motions on the Panda:
-    group_name = "panda_arm"
+    group_name = "f_arm"
     group = moveit_commander.MoveGroupCommander(group_name)
 
     ## We create a `DisplayTrajectory`_ publisher which is used later to publish
@@ -113,17 +113,15 @@ class MoveGroupElir(object):
     group_names = robot.get_group_names()
     print "============ Robot Groups:", robot.get_group_names()
 
-    # Sometimes for debugging it is useful to print the entire state of the
-    # robot:
-    print "============ Printing robot state"
-    print robot.get_current_state()
-    print ""
-
+    print "============"
+    print "DEFAULT TOLERANCE", group.get_goal_tolerance()
+    tolerance = 1
+    group.set_goal_tolerance(tolerance)
+    print "NEW TOLERANCE:"+str(tolerance)
     # Misc variables
     self.robot = robot
     self.scene = scene
     self.group = group
-    self.display_trajectory_publisher = display_trajectory_publisher
     self.planning_frame = planning_frame
     self.eef_link = eef_link
     self.group_names = group_names
@@ -132,19 +130,16 @@ class MoveGroupElir(object):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
+    #self.group_name = req.group
+    #self.group = moveit_commander.MoveGroupCommander(self.group_name)
     group = self.group
-
-    ## BEGIN_SUB_TUTORIAL plan_to_pose
-    ##
-    ## Planning to a Pose Goal
-    ## ^^^^^^^^^^^^^^^^^^^^^^^
-    ## We can plan a motion for this group to a desired pose for the
-    ## end-effector:
     pose_goal = geometry_msgs.msg.Pose()
-    pose_goal.orientation.w = 1.0
-    pose_goal.position.x = 0.4
-    pose_goal.position.y = 0.1
-    pose_goal.position.z = 0.4
+    pose_goal.position.x =  0.611913837579
+    pose_goal.position.y = 0.0000000000000
+    pose_goal.position.z = 0.0859528009998
+    pose_goal.orientation.y =  0.525553383506
+    pose_goal.orientation.w = 0.850760625021
+
     group.set_pose_target(pose_goal)
 
     ## Now, we call the planner to compute the plan and execute it.
@@ -162,8 +157,6 @@ class MoveGroupElir(object):
     # we use the class variable rather than the copied state variable
     current_pose = self.group.get_current_pose().pose
     return all_close(pose_goal, current_pose, 0.01)
-
-
 
   def display_trajectory(self, plan):
     # Copy class variables to local variables to make the web tutorials more clear.
@@ -187,7 +180,7 @@ class MoveGroupElir(object):
     display_trajectory.trajectory_start = robot.get_current_state()
     display_trajectory.trajectory.append(plan)
     # Publish
-    display_trajectory_publisher.publish(display_trajectory);
+    display_trajectory_publisher.publish(display_trajectory)
 
     ## END_SUB_TUTORIAL
 
@@ -252,10 +245,12 @@ class MoveGroupElir(object):
 
 
 def main():
+  moveit_commander.roscpp_initialize(sys.argv)
+  rospy.init_node('elir_move_group', anonymous=True)
   try:
     print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander (press ctrl-d to exit) ..."
     raw_input()
-    tutorial = MoveGroupPythonIntefaceTutorial()
+    tutorial = MoveGroupElir()
 
     print "============ Press `Enter` to execute a movement using a pose goal ..."
     raw_input()
