@@ -67,6 +67,9 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>std_srvs</exec_depend>
+  <build_depend>elir_inverse_kinematics</build_depend>
+  <exec_depend>elir_inverse_kinematics</exec_depend>
+  <build_export_depend>elir_inverse_kinematics</build_export_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

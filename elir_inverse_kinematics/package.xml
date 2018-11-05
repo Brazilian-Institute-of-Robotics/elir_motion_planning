@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>inverse_kinematics</name>
+  <name>elir_inverse_kinematics</name>
   <version>0.0.0</version>
   <description>The inverse_kinematics package</description>
 
