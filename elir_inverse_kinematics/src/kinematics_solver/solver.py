@@ -10,7 +10,7 @@ class elir_inverse_kinematics():
 
         #Joint_1 distance from the base_link origin 
         self.x_offset = 0.14595
-        self.z_offset = 0.1967
+        self.z_offset = 0.19685
 
         #Joint offset according to the URDF file
         self.joint1_offset = 0.6
@@ -91,26 +91,24 @@ class elir_inverse_kinematics():
         theta1 = self.theta1_calculus(x_des,z_des,theta2,elbow_up)
         
         if elbow_up == True:
-            theta1 = theta1 - self.joint1_offset
-            theta2 = theta2 - self.joint2_offset
-
-            theta1 = -theta1 + self.joint1_offset
-            theta2 = -theta2 - self.joint2_offset
+            theta1 = -theta1 +self.joint1_offset
+            theta2 = -theta2 -self.joint2_offset
         else:
-            theta1 = theta1 - self.joint1_offset
-            theta2 = theta2 - self.joint2_offset
-
-            theta1 = -theta1 + self.joint1_offset
-            theta2 = theta2 - self.joint2_offset
+            theta1 = -theta1 +self.joint1_offset
+            theta2 = theta2 -self.joint2_offset
 
         angle_vector = [theta1,theta2]
         return angle_vector
 
 if __name__ == '__main__':
   x= elir_inverse_kinematics()
-  x_des = 0.402984
-  z_des = 0.439057
-  angles = x.inverse_kinematics(x_des,z_des,False)
+  x_des = 0.724206
+  z_des = 0.173995
+  elbow_up = True
+  angles = x.inverse_kinematics(x_des,z_des,elbow_up)
+  #angles = []
+  #angles.append(x.theta1_calculus(x_des,z_des,2.17404593425,elbow_up))
+  #angles.append(x.theta2_calculus(x_des,z_des))
   print "First angle" , str(angles[0])
   print "Second angle" , str(angles[1])
 

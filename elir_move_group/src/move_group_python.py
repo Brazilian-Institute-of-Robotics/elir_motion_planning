@@ -74,7 +74,6 @@ class MoveGroupElir(object):
   """MoveGroupPythonIntefaceTutorial"""
   def __init__(self):
     super(MoveGroupElir, self).__init__()
-
     self.move_request_service = rospy.Service('motion_planning/MoveRequest',MoveRequest, self.go_to_pose_goal)
     ## Instantiate a `RobotCommander`_ object. This object is the outer-level interface to
     ## the robot:
@@ -93,66 +92,50 @@ class MoveGroupElir(object):
     # Misc variables
     self.robot = robot
     self.scene = scene
-    self.group = group
-    self.planning_frame = planning_frame
-    self.eef_link = eef_link
-    self.group_names = group_names
+    #self.group = group
+    #self.planning_frame = planning_frame
+    #self.eef_link = eef_link
+    #self.group_names = group_names
+
+  def go_to_joint_state(self,angle_vector):
+
+    theta1 = angle_vector[0]
+    theta2 = angle_vector[1]
+    joint_goal = self.move_group.get_current_joint_values()
+    joint_goal[0] = theta1
+    joint_goal[1] = theta2
+
+    # The go command can be called with joint values, poses, or without any
+    # parameters if you have already set the pose or joint target for the group
+    self.move_group.go(joint_goal, wait=True)
+
+    # Calling ``stop()`` ensures that there is no residual movement
+    self.move_group.stop()
+
+    current_joints = self.move_group.get_current_joint_values()
+    return all_close(joint_goal, current_joints, 0.1)
 
   def go_to_pose_goal(self,req):
-    
     x_goal = req.x
     z_goal = req.z
     elbow_up = req.elbow_up
+    
     self.group_name = req.group
+    self.move_group = moveit_commander.MoveGroupCommander(self.group_name)
 
-    self.group = moveit_commander.MoveGroupCommander(self.group_name)
+    joint_target = self.custom_planner.inverse_kinematics(x_goal,z_goal,elbow_up)
 
-    self.custom_planner.inverse_kinematics(x_goal,z_goal,elbow_up)
-    group = self.group
+    result = self.go_to_joint_state(joint_target)
 
-    pose_goal = geometry_msgs.msg.Pose()
-    pose_goal.position.x =  0.611913837579
-    pose_goal.position.y = 0.0000000000000
-    pose_goal.position.z = 0.0859528009998
-    pose_goal.orientation.y =  0.525553383506
-    pose_goal.orientation.w = 0.850760625021
-
-    group.set_pose_target(pose_goal)
-
-    ## Now, we call the planner to compute the plan and execute it.
-    plan = group.go(wait=True)
-    # Calling `stop()` ensures that there is no residual movement
-    group.stop()
-    # It is always good to clear your targets after planning with poses.
-    # Note: there is no equivalent function for clear_joint_value_targets()
-    group.clear_pose_targets()
-
-    ## END_SUB_TUTORIAL
-
-    # For testing:
-    # Note that since this section of code will not be included in the tutorials
-    # we use the class variable rather than the copied state variable
-    current_pose = self.group.get_current_pose().pose
-    return all_close(pose_goal, current_pose, 0.01)
+    return result
 
 
 def main():
+  
   moveit_commander.roscpp_initialize(sys.argv)
+
   rospy.init_node('elir_move_group', anonymous=True)
-  try:
-    print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander (press ctrl-d to exit) ..."
-    raw_input()
-    tutorial = MoveGroupElir()
-
-    print "============ Press `Enter` to execute a movement using a pose goal ..."
-    raw_input()
-    tutorial.go_to_pose_goal()
-
-    print "============ Python tutorial demo complete!"
-  except rospy.ROSInterruptException:
-    return
-  except KeyboardInterrupt:
-    return
-
+  x =MoveGroupElir()
+  rospy.spin()
 if __name__ == '__main__':
   main()
