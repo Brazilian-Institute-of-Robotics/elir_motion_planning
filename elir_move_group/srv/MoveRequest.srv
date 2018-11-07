@@ -1,0 +1,6 @@
+string group # group that is going to be moved
+float32 x # X coordinate
+float32 z # Z coordinate
+bool elbow_up # Elbow up configuration
+---
+bool result # true if the goal was achievied in the set tolerance
