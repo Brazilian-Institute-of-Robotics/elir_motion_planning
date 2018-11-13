@@ -74,7 +74,7 @@ class MoveGroupElir(object):
   """MoveGroupPythonIntefaceTutorial"""
   def __init__(self):
     super(MoveGroupElir, self).__init__()
-    self.move_request_service = rospy.Service('motion_planning/MoveRequest',MoveRequest, self.go_to_pose_goal)
+    self.move_request_service = rospy.Service('move_group/MoveRequest',MoveRequest, self.go_to_pose_goal)
     ## Instantiate a `RobotCommander`_ object. This object is the outer-level interface to
     ## the robot:
     robot = moveit_commander.RobotCommander()
@@ -115,21 +115,15 @@ class MoveGroupElir(object):
     x_goal = req.x
     z_goal = req.z
     elbow_up = req.elbow_up
-    
+  
     self.group_name = req.group
     self.move_group = moveit_commander.MoveGroupCommander(self.group_name)
-
     joint_target = self.custom_planner.inverse_kinematics(x_goal,z_goal,elbow_up)
-
     result = self.go_to_joint_state(joint_target)
-
     return result
 
-
 def main():
-  
   moveit_commander.roscpp_initialize(sys.argv)
-
   rospy.init_node('elir_move_group', anonymous=True)
   x =MoveGroupElir()
   rospy.spin()

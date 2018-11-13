@@ -2,6 +2,18 @@
 This is the sample package used to interact MoveIt with gazebo!
 The files 
 
+## Features
+With the new_moveit_planning execution launch, you'll be able to visualize your robot in Rviz and use the interactive marker to set a goal position.
+```
+$ roslaunch moveit_with_gazebo new_moveit_planning_execution.launch
+```
+In order to enable the move_group node that implements the move_group/MoveRequest service, run this command after your planning execution:
+```
+$ roslaunch moveit_with_gazebo custom_move_group.launch
+```
+
+This service allows you to send an X and Z goal and a configuration to an specific move_group.
+
 #Gazebo Configuration
 
 It's necessary that your robot has the trajectory controllers defined spawned in the gazebo simulation.
@@ -90,5 +102,5 @@ Now, create one moveit_planning_execution.launch file, that loads the planning e
 ```
 
 #Running the tests
+Launch your robot world, with the controllers and models. Then launch the moveit_planning_execution and add the motion planning plugin to the Rviz.
 
-Launch your robot world, with the controllers and models. Then launch the moveit_planning_execution and add the motion planning plugin
