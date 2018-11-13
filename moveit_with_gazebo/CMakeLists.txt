@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(moveit_with_gazebo)
 
-find_package(catkin REQUIRED
-            dynamixel_msgs)
+find_package(catkin REQUIRED)
 
 catkin_package()
 
