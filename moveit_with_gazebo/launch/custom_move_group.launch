@@ -1,3 +1,0 @@
-<launch>
-<node name="move_group_ik" pkg="moveit_with_gazebo" type="move_group_pose_ik.py" /> 
-</launch>
