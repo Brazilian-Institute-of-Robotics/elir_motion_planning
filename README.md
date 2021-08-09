@@ -69,5 +69,8 @@ $ roslaunch elir_move_group custom_move_group.launch
 * **Icaro Nascimento** - [icaronascimento31](https://github.com/icaronascimento31)
 * **Carlos Alberto Pereira** -[carlospereira179](https://github.com/carlospereira179)
 
+## Academic Contribution
+The robot academic related work is indexed to the repository in the file `Graduation_Thesis_ELIR-_PT-BR.pdf`.
+
 ## Credits
 * **Marco Reis** - [mhar-vell](https://github.com/mhar-vell)
